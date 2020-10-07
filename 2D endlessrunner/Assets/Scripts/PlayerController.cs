@@ -6,9 +6,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed;
-    public float jump;
+    public float jumpPower;
 
     private Rigidbody2D rb2d;
+    private float movement = 0f;
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -16,7 +17,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Jump();
+    }
 
+    private void Jump()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
+        }
     }
 
     private void FixedUpdate()
@@ -26,10 +35,19 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        float xAxis = Input.GetAxis("Horizontal");
-
-        Vector2 movement = new Vector2(xAxis, 0);
-
-        rb2d.AddForce(movement * speed);
+        movement = Input.GetAxis("Horizontal");
+        if (movement > 0f)
+        {
+            rb2d.velocity = new Vector2(movement * speed, rb2d.velocity.y);
+        }
+        
+        else if (movement< 0f)
+        {
+            rb2d.velocity = new Vector2(movement * speed, rb2d.velocity.y);
+        }
+        else
+        {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+        }
     }
 }
