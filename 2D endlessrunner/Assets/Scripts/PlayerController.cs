@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;
 
     private Rigidbody2D rb2d;
-    private float movement = 0f;
+    private Vector2 RefVelocity = Vector2.zero;
+    private bool isGrounded;
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -22,9 +24,27 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetButtonDown("Jump"))
+        if ((isGrounded == true) && (Input.GetButtonDown("Jump")))
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
+            {
+                rb2d.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            isGrounded = true;
+        }
+
+        
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            isGrounded = false;
         }
     }
 
@@ -35,19 +55,9 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        movement = Input.GetAxis("Horizontal");
-        if (movement > 0f)
-        {
-            rb2d.velocity = new Vector2(movement * speed, rb2d.velocity.y);
-        }
-        
-        else if (movement< 0f)
-        {
-            rb2d.velocity = new Vector2(movement * speed, rb2d.velocity.y);
-        }
-        else
-        {
-            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-        }
+        float xAxis = Input.GetAxis("Horizontal") * speed;
+
+        Vector2 TargetVelocity = new Vector2(xAxis * speed, rb2d.velocity.y);
+        rb2d.velocity = Vector2.SmoothDamp(rb2d.velocity, TargetVelocity, ref RefVelocity, 0.15f);
     }
 }
