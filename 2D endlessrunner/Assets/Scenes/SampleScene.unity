@@ -621,8 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d56bcdc08a0453459b2c7ffb8519aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  jumpPower: 8
+  speed: 2
+  jumpPower: 14
 --- !u!50 &1127118362
 Rigidbody2D:
   serializedVersion: 4
@@ -635,7 +635,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -1342,6 +1342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1d6bb8590fd58499b1e43ebaeb910e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontalSpeed: 0
+  movementTime: 0
 --- !u!50 &1270527758
 Rigidbody2D:
   serializedVersion: 4
